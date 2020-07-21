@@ -5,4 +5,13 @@ import twitter4j.Status;
 import twitter4j.StatusUpdate;
 
 public class TextTweet {
+    private String tweetString;  //ツイート内容
+
+    public TextTweet(String status){
+        this.tweetString = status;
+    }
+
+    public String getTweetString() {
+        return tweetString;
+    }
 }
