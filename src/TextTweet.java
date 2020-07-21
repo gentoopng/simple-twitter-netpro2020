@@ -17,6 +17,12 @@ public class TextTweet implements Runnable {
 
     @Override
     public void run() {
-
+        try {
+            Twitter twitter = new TwitterFactory().getInstance();
+            StatusUpdate update = new StatusUpdate(tweetString);
+            Status status = twitter.updateStatus(update);
+        } catch (TwitterException e) {
+            e.printStackTrace();
+        }
     }
 }
