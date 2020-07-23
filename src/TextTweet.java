@@ -9,6 +9,9 @@ public class TextTweet implements Runnable {
     private int mode;   //0 = check TL, 1 = tweet
     private boolean done = false;
 
+    public static int VIEW_MODE = 0;
+    public static int TWEET_MODE = 1;
+
     public TextTweet(String status, int mode){
         this.message = status;
         this.mode = mode;

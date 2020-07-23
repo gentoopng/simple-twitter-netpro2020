@@ -20,6 +20,11 @@ public class SimpleTwitterGUI extends JFrame {
     ObjectInputStream ois = null;
     ObjectOutputStream oos = null;
 
+    TextTweet textTweet = null;
+
+    String timelineString = "";
+    String tweetString = "";
+
     public static void main(String[] args) {
         JFrame w = new SimpleTwitterGUI("SimpleTwitterClient");
         w.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -46,7 +51,22 @@ public class SimpleTwitterGUI extends JFrame {
     class ViewTLAction extends AbstractAction {
         @Override
         public void actionPerformed(ActionEvent e) {
+            try {
+                int count = Integer.parseInt(countTL.getText());
+                textTweet = new TextTweet(Integer.toString(count), TextTweet.VIEW_MODE);
 
+                oos = new ObjectOutputStream(socket.getOutputStream());
+                oos.writeObject(textTweet);
+                oos.flush();
+
+                ois = new ObjectInputStream(socket.getInputStream());
+                textTweet = (TextTweet) ois.readObject();
+                timelineString = textTweet.getMessage();
+
+                timelineArea.setText(timelineString);
+            } catch (IOException | ClassNotFoundException exception) {
+                exception.printStackTrace();
+            }
         }
     }
 
@@ -76,7 +96,9 @@ public class SimpleTwitterGUI extends JFrame {
         countTL = new JTextField("5");
         countTL.setPreferredSize(new Dimension(50, 25));
         timelineControlPanel.add(countTL);
-        viewTLButton = new JButton();
+        Action viewTLAction = new ViewTLAction();
+        viewTLAction.putValue(Action.NAME, "View Timeline");
+        viewTLButton = new JButton(viewTLAction);
         timelineControlPanel.add(viewTLButton);
 
         timelinePanel.add(timelineControlPanel);
