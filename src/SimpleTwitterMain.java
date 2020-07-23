@@ -41,7 +41,7 @@ public class SimpleTwitterMain {
                             break;
                         case 1: //tweet mode
                             textTweet.run();
-                            textTweet.setMessage("Successfully Tweeted!");
+                            textTweet.setMessage("Your Tweet was sent");
                             break;
                         default:
                             System.out.println("error, try again");
@@ -50,7 +50,7 @@ public class SimpleTwitterMain {
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                     if (textTweet != null)
-                        textTweet.setMessage("Somethig went wrong. Please try again.");
+                        textTweet.setMessage("Something went wrong. Please try again.");
                 }
 
                 if (textTweet == null) {
