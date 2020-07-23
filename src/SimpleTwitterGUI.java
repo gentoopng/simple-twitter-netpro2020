@@ -1,3 +1,5 @@
+import com.sun.tools.javac.comp.Flow;
+
 import javax.swing.*;
 import javax.swing.border.*;
 import java.awt.*;
@@ -6,12 +8,13 @@ import java.io.*;
 import java.net.Socket;
 
 public class SimpleTwitterGUI extends JFrame {
-    JPanel pane;
+    JPanel pane, paneCenter;
+    JPanel topPanel, bottomPanel;
     JPanel timelinePanel, timelineControlPanel, tweetPanel, tweetControlPanel;
     JTextArea timelineArea, tweetArea;
-    JTextField countTL;
-    JButton tweetButton, viewTLButton;
-    JLabel countLabel, tweetLabel;
+    JTextField addressField, countTL;
+    JButton connectButton, tweetButton, viewTLButton;
+    JLabel addressLabel, countLabel, tweetLabel, statusLabel;
     JScrollPane scrollPane;
 
     BufferedReader reader = null;
@@ -96,7 +99,26 @@ public class SimpleTwitterGUI extends JFrame {
 
     private void initializeGUI() {
         pane = (JPanel)getContentPane();
-        pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
+        pane.setLayout(new BorderLayout());
+        paneCenter = new JPanel();
+        paneCenter.setLayout(new BoxLayout(paneCenter, BoxLayout.Y_AXIS));
+
+        topPanel = new JPanel();
+        topPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 2));
+        addressLabel = new JLabel("Server Address: ");
+        topPanel.add(addressLabel);
+        addressField = new JTextField("localhost");
+        addressField.setPreferredSize(new Dimension(150, 25));
+        topPanel.add(addressField);
+        connectButton = new JButton();
+        topPanel.add(connectButton);
+        pane.add(topPanel, BorderLayout.PAGE_START);
+
+        bottomPanel = new JPanel();
+        bottomPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 2));
+        statusLabel = new JLabel("First of all, please connect to the server.");
+        bottomPanel.add(statusLabel);
+        pane.add(bottomPanel, BorderLayout.PAGE_END);
 
         timelinePanel = new JPanel();
         timelineControlPanel = new JPanel();
@@ -110,7 +132,7 @@ public class SimpleTwitterGUI extends JFrame {
         timelinePanel.add(scrollPane);
         //timelinePanel.add(timelineArea);
 
-        timelineControlPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 2));
+        timelineControlPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 8, 2));
         countLabel = new JLabel("Tweets to show:");
         timelineControlPanel.add(countLabel);
         countTL = new JTextField("5");
@@ -123,8 +145,7 @@ public class SimpleTwitterGUI extends JFrame {
 
         timelinePanel.add(timelineControlPanel);
         timelinePanel.setBorder(new TitledBorder("Timeline"));
-        pane.add(timelinePanel);
-
+        paneCenter.add(timelinePanel, BorderLayout.CENTER);
 
         tweetPanel = new JPanel();
         tweetControlPanel = new JPanel();
@@ -145,6 +166,8 @@ public class SimpleTwitterGUI extends JFrame {
         tweetArea.setBorder(new LineBorder(Color.gray, 1, true));
         tweetPanel.add(tweetArea);
         tweetPanel.setBorder(new TitledBorder("Tweet"));
-        pane.add(tweetPanel);
+        paneCenter.add(tweetPanel);
+
+        pane.add(paneCenter, BorderLayout.CENTER);
     }
 }
