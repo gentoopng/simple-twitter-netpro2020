@@ -12,6 +12,7 @@ public class SimpleTwitterGUI extends JFrame {
     JTextField countTL;
     JButton tweetButton, viewTLButton;
     JLabel countLabel, tweetLabel;
+    JScrollPane scrollPane;
 
     BufferedReader reader = null;
     Socket socket = null;
@@ -102,9 +103,12 @@ public class SimpleTwitterGUI extends JFrame {
 
         timelinePanel.setLayout(new BoxLayout(timelinePanel, BoxLayout.Y_AXIS));
 
-        timelineArea = new JTextArea();
-        timelineArea.setBorder(new LineBorder(Color.gray, 1, true));
-        timelinePanel.add(timelineArea);
+        timelineArea = new JTextArea(23, 40);
+        timelineArea.setLineWrap(true);
+        //timelineArea.setBorder(new LineBorder(Color.gray, 1, true));
+        scrollPane = new JScrollPane(timelineArea);
+        timelinePanel.add(scrollPane);
+        //timelinePanel.add(timelineArea);
 
         timelineControlPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 2));
         countLabel = new JLabel("Tweets to show:");
@@ -136,7 +140,8 @@ public class SimpleTwitterGUI extends JFrame {
         tweetControlPanel.add(tweetButton);
         tweetPanel.add(tweetControlPanel);
 
-        tweetArea = new JTextArea();
+        tweetArea = new JTextArea(5, 40);
+        tweetArea.setLineWrap(true);
         tweetArea.setBorder(new LineBorder(Color.gray, 1, true));
         tweetPanel.add(tweetArea);
         tweetPanel.setBorder(new TitledBorder("Tweet"));
