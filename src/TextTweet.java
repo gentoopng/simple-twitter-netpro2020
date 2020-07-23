@@ -4,7 +4,9 @@ import twitter4j.TwitterFactory;
 import twitter4j.Status;
 import twitter4j.StatusUpdate;
 
-public class TextTweet implements Runnable {
+import java.io.Serializable;
+
+public class TextTweet implements Runnable, Serializable {
     private String message;  //受け渡しする内容
     private int mode;   //0 = check TL, 1 = tweet
     private boolean done = false;
