@@ -67,6 +67,10 @@ public class SimpleTwitterMain {
                     oos.flush();
                 }
             }
+
+            ois.close();
+            oos.close();
+            socket.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
