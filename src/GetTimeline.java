@@ -17,7 +17,7 @@ public class GetTimeline {
             List<Status> statusList = twitter.getHomeTimeline(page);
             for (Status status: statusList) {
                 result.append(status.getUser().getName() + " @" + status.getUser().getScreenName() + "\n");
-                result.append(status.getText() + "\n");
+                result.append(status.getText() + "\n---------\n");
             }
         } catch (TwitterException e) {
             e.printStackTrace();
