@@ -38,6 +38,7 @@ public class TextTweet implements Runnable, Serializable {
         this.done = status;
     }
 
+    //このオブジェクトの message の内容でツイートを実行する
     @Override
     public void run() {
         try {

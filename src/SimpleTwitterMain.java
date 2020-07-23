@@ -14,14 +14,14 @@ public class SimpleTwitterMain {
         ObjectInputStream ois = null;
         ObjectOutputStream oos = null;
 
-        try {
+        try {   //サーバーを準備
             server = new ServerSocket(5001);
             socket = server.accept();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        try {
+        try {   //最大100回まで処理
             int counter = 100;
 
             //String tweetString = "";
@@ -29,19 +29,21 @@ public class SimpleTwitterMain {
 
             while (counter-- > 0) {
                 try {
+                    //クライアントからオブジェクトを受け取る
                     assert socket != null;
                     ois = new ObjectInputStream(socket.getInputStream());
                     textTweet = (TextTweet) ois.readObject();
                     mode = textTweet.getMode();
 
+                    //オブジェクトに入って送られてきた動作モードに応じて処理を分岐
                     switch (mode) {
                         case 0: //check TL mode
-                            timelineString = GetTimeline.get(Integer.parseInt(textTweet.getMessage()));
-                            textTweet.setMessage(timelineString);
+                            timelineString = GetTimeline.get(Integer.parseInt(textTweet.getMessage())); //タイムラインを取得して
+                            textTweet.setMessage(timelineString);   //オブジェクトに書き込む
                             break;
                         case 1: //tweet mode
-                            textTweet.run();
-                            textTweet.setMessage("Your Tweet was sent");
+                            textTweet.run();    //オブジェクトに入っている内容でツイートを実行
+                            textTweet.setMessage("Your Tweet was sent");    //処理が終わったメッセージを書き込む
                             break;
                         default:
                             System.out.println("error, try again");
@@ -53,12 +55,13 @@ public class SimpleTwitterMain {
                         textTweet.setMessage("Something went wrong. Please try again.");
                 }
 
+                //もしオブジェクトがnullだった場合エラーメッセージを書き込む
                 if (textTweet == null) {
                     textTweet = new TextTweet("Something went wrong. Please try again.", 0);
                 }
 
+                //処理が終わったオブジェクトをクライアントに送り返す
                 oos = new ObjectOutputStream(socket.getOutputStream());
-
                 oos.writeObject(textTweet);
                 oos.flush();
 

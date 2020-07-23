@@ -40,21 +40,22 @@ public class SimpleTwitterGUI extends JFrame {
         initializeGUI();
     }
 
+    //タイムラインを取得して表示するアクション
     class ViewTLAction extends AbstractAction {
         @Override
         public void actionPerformed(ActionEvent e) {
             statusLabel.setText("Checking the timeline...");
             try {
-                int count = Integer.parseInt(countTL.getText());
-                textTweet = new TextTweet(Integer.toString(count), TextTweet.VIEW_MODE);
+                int count = Integer.parseInt(countTL.getText());    //表示したいツイート数を取得
+                textTweet = new TextTweet(Integer.toString(count), TextTweet.VIEW_MODE);    //送るオブジェクトに取得したいツイート数と動作モードをセットする
 
                 oos = new ObjectOutputStream(socket.getOutputStream());
                 oos.writeObject(textTweet);
-                oos.flush();
+                oos.flush();    //サーバに送信
 
-                ois = new ObjectInputStream(socket.getInputStream());
+                ois = new ObjectInputStream(socket.getInputStream());   //送り返されるオブジェクトを受信
                 textTweet = (TextTweet) ois.readObject();
-                timelineString = textTweet.getMessage();
+                timelineString = textTweet.getMessage();    //取得したタイムラインを表示
 
                 timelineArea.setText(timelineString);
                 statusLabel.setText("Complete");
@@ -65,24 +66,25 @@ public class SimpleTwitterGUI extends JFrame {
         }
     }
 
+    //ツイートを投稿するアクション
     class TweetAction extends AbstractAction {
         @Override
         public void actionPerformed(ActionEvent e) {
-            tweetString = tweetArea.getText();
+            tweetString = tweetArea.getText();  //TextAreaからツイート内容を取得
             statusLabel.setText("Sending...");
 
             if (!tweetString.equals("")) {
-                textTweet = new TextTweet(tweetString, TextTweet.TWEET_MODE);
+                textTweet = new TextTweet(tweetString, TextTweet.TWEET_MODE);   //送るオブジェクトに投稿したいツイート内容と動作モードをセットする
                 try {
                     oos = new ObjectOutputStream(socket.getOutputStream());
                     oos.writeObject(textTweet);
-                    oos.flush();
+                    oos.flush();    //サーバに送信
 
-                    ois = new ObjectInputStream(socket.getInputStream());
+                    ois = new ObjectInputStream(socket.getInputStream());   //送り返されるオブジェクトを受信
                     textTweet = (TextTweet) ois.readObject();
-                    tweetArea.setText("");
+                    tweetArea.setText("");  //TextAreaをリセット（空欄に）
                     System.out.println(textTweet.getMessage());
-                    statusLabel.setText(textTweet.getMessage());
+                    statusLabel.setText(textTweet.getMessage());    //送り返されてきたメッセージを表示
                 } catch (IOException | ClassNotFoundException exception) {
                     exception.printStackTrace();
                     statusLabel.setText("Something went wrong");
@@ -94,6 +96,7 @@ public class SimpleTwitterGUI extends JFrame {
         }
     }
 
+    //サーバに接続するアクション
     class ConnectAction extends AbstractAction {
         @Override
         public void actionPerformed(ActionEvent event) {
