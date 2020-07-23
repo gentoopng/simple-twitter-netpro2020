@@ -6,13 +6,31 @@ import twitter4j.StatusUpdate;
 
 public class TextTweet implements Runnable {
     private String message;  //受け渡しする内容
+    private int mode;   //0 = check TL, 1 = tweet
+    private boolean done = false;
 
-    public TextTweet(String status){
+    public TextTweet(String status, int mode){
         this.message = status;
+        this.mode = mode;
     }
 
-    public String getTweetString() {
+    public String getMessage() {
         return message;
+    }
+
+    public void setMessage(String msg) {
+        this.message = msg;
+    }
+
+    public int getMode() {
+        return mode;
+    }
+
+    public boolean isDone() {
+        return done;
+    }
+    public void setDone(boolean status) {
+        this.done = status;
     }
 
     @Override
