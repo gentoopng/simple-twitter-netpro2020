@@ -43,6 +43,7 @@ public class SimpleTwitterGUI extends JFrame {
     class ViewTLAction extends AbstractAction {
         @Override
         public void actionPerformed(ActionEvent e) {
+            statusLabel.setText("Checking the timeline...");
             try {
                 int count = Integer.parseInt(countTL.getText());
                 textTweet = new TextTweet(Integer.toString(count), TextTweet.VIEW_MODE);
@@ -56,8 +57,10 @@ public class SimpleTwitterGUI extends JFrame {
                 timelineString = textTweet.getMessage();
 
                 timelineArea.setText(timelineString);
+                statusLabel.setText("Complete");
             } catch (IOException | ClassNotFoundException exception) {
                 exception.printStackTrace();
+                statusLabel.setText("Something went wrong");
             }
         }
     }
@@ -66,6 +69,7 @@ public class SimpleTwitterGUI extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             tweetString = tweetArea.getText();
+            statusLabel.setText("Sending...");
 
             if (!tweetString.equals("")) {
                 textTweet = new TextTweet(tweetString, TextTweet.TWEET_MODE);
@@ -78,11 +82,14 @@ public class SimpleTwitterGUI extends JFrame {
                     textTweet = (TextTweet) ois.readObject();
                     tweetArea.setText("");
                     System.out.println(textTweet.getMessage());
+                    statusLabel.setText(textTweet.getMessage());
                 } catch (IOException | ClassNotFoundException exception) {
                     exception.printStackTrace();
+                    statusLabel.setText("Something went wrong");
                 }
             } else {
                 tweetArea.setText("Please enter something here!");
+                statusLabel.setText(":/");
             }
         }
     }
@@ -101,7 +108,7 @@ public class SimpleTwitterGUI extends JFrame {
                 exception.printStackTrace();
                 System.out.println("Connection failed");
                 statusLabel.setText("Connection failed");
-                timelineArea.setText("Failed! \nPlease make sure the server is running and the addres is correct, then retry.");
+                timelineArea.setText("Failed! \nPlease make sure the server is running and the address is correct, then retry.");
             }
         }
     }
