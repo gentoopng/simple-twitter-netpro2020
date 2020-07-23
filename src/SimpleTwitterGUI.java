@@ -4,6 +4,8 @@ import javax.swing.*;
 import javax.swing.border.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.*;
+import java.net.Socket;
 
 public class SimpleTwitterGUI extends JFrame {
     JPanel pane;
@@ -12,6 +14,11 @@ public class SimpleTwitterGUI extends JFrame {
     JTextField countTL;
     JButton tweetButton, viewTLButton;
     JLabel countLabel, tweetLabel;
+
+    BufferedReader reader = null;
+    Socket socket = null;
+    ObjectInputStream ois = null;
+    ObjectOutputStream oos = null;
 
     public static void main(String[] args) {
         JFrame w = new SimpleTwitterGUI("SimpleTwitterClient");
@@ -23,6 +30,34 @@ public class SimpleTwitterGUI extends JFrame {
 
     public SimpleTwitterGUI(String title) { //コンストラクタ
         super(title);
+        initializeGUI();
+
+        try {
+            reader = new BufferedReader(new InputStreamReader(System.in));
+            System.out.println("Server name? >");
+            String serverName = reader.readLine();
+            socket = new Socket(serverName, 5001);
+            System.out.println("Connection established");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    class ViewTLAction extends AbstractAction {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+        }
+    }
+
+    class TweetAction extends AbstractAction {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+        }
+    }
+
+    private void initializeGUI() {
         pane = (JPanel)getContentPane();
         pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
 
