@@ -8,7 +8,7 @@ import java.util.List;
 public class GetTimeline {
 
     public String get(int count) {
-        StringBuffer result = new StringBuffer();
+        StringBuilder result = new StringBuilder();
         Twitter twitter = new TwitterFactory().getInstance();
 
         try {
