@@ -91,13 +91,13 @@ public class SimpleTwitterGUI extends JFrame {
         timelinePanel.add(timelineArea);
 
         timelineControlPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 2));
-        countLabel = new JLabel("Tweets to view:");
+        countLabel = new JLabel("Tweets to show:");
         timelineControlPanel.add(countLabel);
         countTL = new JTextField("5");
         countTL.setPreferredSize(new Dimension(50, 25));
         timelineControlPanel.add(countTL);
         Action viewTLAction = new ViewTLAction();
-        viewTLAction.putValue(Action.NAME, "View Timeline");
+        viewTLAction.putValue(Action.NAME, "Update Timeline");
         viewTLButton = new JButton(viewTLAction);
         timelineControlPanel.add(viewTLButton);
 
