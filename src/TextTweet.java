@@ -5,21 +5,21 @@ import twitter4j.Status;
 import twitter4j.StatusUpdate;
 
 public class TextTweet implements Runnable {
-    private String tweetString;  //ツイート内容
+    private String message;  //受け渡しする内容
 
     public TextTweet(String status){
-        this.tweetString = status;
+        this.message = status;
     }
 
     public String getTweetString() {
-        return tweetString;
+        return message;
     }
 
     @Override
     public void run() {
         try {
             Twitter twitter = new TwitterFactory().getInstance();
-            StatusUpdate update = new StatusUpdate(tweetString);
+            StatusUpdate update = new StatusUpdate(message);
             Status status = twitter.updateStatus(update);
         } catch (TwitterException e) {
             e.printStackTrace();
