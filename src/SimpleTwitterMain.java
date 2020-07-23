@@ -30,7 +30,7 @@ public class SimpleTwitterMain {
             int counter = 100;
 
             //String tweetString = "";
-            //String timelineString = "";
+            String timelineString = "";
 
             while (counter-- > 0) {
                 try {
@@ -39,6 +39,7 @@ public class SimpleTwitterMain {
 
                     switch (mode) {
                         case 0: //check TL mode
+                            timelineString = GetT
                             break;
                         case 1: //tweet mode
                             textTweet.run();

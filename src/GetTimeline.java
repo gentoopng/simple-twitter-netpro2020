@@ -7,7 +7,7 @@ import java.util.List;
 
 public class GetTimeline {
 
-    public String get(int count) {
+    public static String get(int count) {
         StringBuilder result = new StringBuilder();
         Twitter twitter = new TwitterFactory().getInstance();
 
