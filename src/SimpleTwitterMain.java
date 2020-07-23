@@ -58,14 +58,11 @@ public class SimpleTwitterMain {
                     textTweet = new TextTweet("Something went wrong. Please try again.", 0);
                 }
 
-                if (oos == null) {
-                    oos = new ObjectOutputStream(socket.getOutputStream());
-                }
+                oos = new ObjectOutputStream(socket.getOutputStream());
 
-                if (oos != null) {
-                    oos.writeObject(textTweet);
-                    oos.flush();
-                }
+                oos.writeObject(textTweet);
+                oos.flush();
+
             }
 
             ois.close();

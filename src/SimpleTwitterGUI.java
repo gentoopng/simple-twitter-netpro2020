@@ -82,7 +82,7 @@ public class SimpleTwitterGUI extends JFrame {
                     oos.writeObject(textTweet);
                     oos.flush();
 
-                    //ois = new ObjectInputStream(socket.getInputStream());
+                    ois = new ObjectInputStream(socket.getInputStream());
                     textTweet = (TextTweet) ois.readObject();
                     tweetArea.setText("");
                     System.out.println(textTweet.getMessage());
