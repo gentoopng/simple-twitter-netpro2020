@@ -7,7 +7,7 @@ import java.net.Socket;
 
 public class SimpleTwitterMain {
     public static void main(String[] args) throws IOException {
-        TextTweet textTweet;
+        TextTweet textTweet = null;
         Integer mode;
 
         ServerSocket server = null;
@@ -23,10 +23,6 @@ public class SimpleTwitterMain {
         }
 
         try {
-            if (ois == null) {
-                ois = new ObjectInputStream(socket.getInputStream());
-            }
-
             int counter = 100;
 
             //String tweetString = "";
@@ -34,6 +30,7 @@ public class SimpleTwitterMain {
 
             while (counter-- > 0) {
                 try {
+                    ois = new ObjectInputStream(socket.getInputStream());
                     textTweet = (TextTweet) ois.readObject();
                     mode = textTweet.getMode();
 
@@ -44,23 +41,29 @@ public class SimpleTwitterMain {
                             break;
                         case 1: //tweet mode
                             textTweet.run();
+                            textTweet.setMessage("Successfully Tweeted!");
                             break;
                         default:
                             System.out.println("error, try again");
                             break;
                     }
-
-                    if (oos == null) {
-                        oos = new ObjectOutputStream(socket.getOutputStream());
-                    }
-
-                    if (oos != null) {
-                        oos.writeObject(textTweet);
-                        oos.flush();
-                    }
-
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
+                    if (textTweet != null)
+                        textTweet.setMessage("Somethig went wrong. Please try again.");
+                }
+
+                if (textTweet == null) {
+                    textTweet = new TextTweet("Something went wrong. Please try again.", 0);
+                }
+
+                if (oos == null) {
+                    oos = new ObjectOutputStream(socket.getOutputStream());
+                }
+
+                if (oos != null) {
+                    oos.writeObject(textTweet);
+                    oos.flush();
                 }
             }
         } catch (IOException e) {
