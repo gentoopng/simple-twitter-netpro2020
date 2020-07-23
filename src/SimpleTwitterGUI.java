@@ -1,3 +1,5 @@
+import javafx.scene.control.cell.CheckBoxListCell;
+
 import javax.swing.*;
 import javax.swing.border.*;
 import java.awt.*;
@@ -5,11 +7,11 @@ import java.awt.event.*;
 
 public class SimpleTwitterGUI extends JFrame {
     JPanel pane;
-    JPanel timelinePanel, timelineControlPanel, tweetPanel;
+    JPanel timelinePanel, timelineControlPanel, tweetPanel, tweetControlPanel;
     JTextArea timelineArea, tweetArea;
     JTextField countTL;
     JButton tweetButton, viewTLButton;
-    JLabel countLabel;
+    JLabel countLabel, tweetLabel;
 
     public static void main(String[] args) {
         JFrame w = new SimpleTwitterGUI("SimpleTwitterClient");
@@ -46,6 +48,23 @@ public class SimpleTwitterGUI extends JFrame {
         timelinePanel.setBorder(new TitledBorder("Timeline"));
         pane.add(timelinePanel);
 
-        //tweetPanel = new JPanel();
+
+        tweetPanel = new JPanel();
+        tweetControlPanel = new JPanel();
+
+        tweetPanel.setLayout(new BoxLayout(tweetPanel, BoxLayout.Y_AXIS));
+        //tweetLabel = new JLabel("What's happening?");
+        //tweetPanel.add(tweetLabel);
+
+        tweetControlPanel.setLayout(new FlowLayout((FlowLayout.RIGHT), 5, 2));
+        tweetButton = new JButton();
+        tweetControlPanel.add(tweetButton);
+        tweetPanel.add(tweetControlPanel);
+
+        tweetArea = new JTextArea();
+        tweetArea.setBorder(new LineBorder(Color.gray, 1, true));
+        tweetPanel.add(tweetArea);
+        tweetPanel.setBorder(new TitledBorder("Tweet"));
+        pane.add(tweetPanel);
     }
 }
