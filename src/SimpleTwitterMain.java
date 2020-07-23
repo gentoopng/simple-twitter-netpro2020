@@ -30,6 +30,7 @@ public class SimpleTwitterMain {
 
             while (counter-- > 0) {
                 try {
+                    assert socket != null;
                     ois = new ObjectInputStream(socket.getInputStream());
                     textTweet = (TextTweet) ois.readObject();
                     mode = textTweet.getMode();
