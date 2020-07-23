@@ -39,7 +39,8 @@ public class SimpleTwitterMain {
 
                     switch (mode) {
                         case 0: //check TL mode
-                            timelineString = GetT
+                            timelineString = GetTimeline.get(Integer.parseInt(textTweet.getMessage()));
+                            textTweet.setMessage(timelineString);
                             break;
                         case 1: //tweet mode
                             textTweet.run();
