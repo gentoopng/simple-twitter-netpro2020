@@ -73,7 +73,25 @@ public class SimpleTwitterGUI extends JFrame {
     class TweetAction extends AbstractAction {
         @Override
         public void actionPerformed(ActionEvent e) {
+            tweetString = tweetArea.getText();
 
+            if (!tweetString.equals("")) {
+                textTweet = new TextTweet(tweetString, TextTweet.TWEET_MODE);
+                try {
+                    oos = new ObjectOutputStream(socket.getOutputStream());
+                    oos.writeObject(textTweet);
+                    oos.flush();
+
+                    //ois = new ObjectInputStream(socket.getInputStream());
+                    textTweet = (TextTweet) ois.readObject();
+                    tweetArea.setText("");
+                    System.out.println(textTweet.getMessage());
+                } catch (IOException | ClassNotFoundException exception) {
+                    exception.printStackTrace();
+                }
+            } else {
+                tweetArea.setText("Please enter something here!");
+            }
         }
     }
 
@@ -114,7 +132,9 @@ public class SimpleTwitterGUI extends JFrame {
         //tweetPanel.add(tweetLabel);
 
         tweetControlPanel.setLayout(new FlowLayout((FlowLayout.RIGHT), 5, 2));
-        tweetButton = new JButton();
+        Action tweetAction = new TweetAction();
+        tweetAction.putValue(Action.NAME, "Tweet");
+        tweetButton = new JButton(tweetAction);
         tweetControlPanel.add(tweetButton);
         tweetPanel.add(tweetControlPanel);
 
