@@ -38,16 +38,6 @@ public class SimpleTwitterGUI extends JFrame {
     public SimpleTwitterGUI(String title) { //コンストラクタ
         super(title);
         initializeGUI();
-
-        try {
-            reader = new BufferedReader(new InputStreamReader(System.in));
-            System.out.println("Server name? >");
-            String serverName = reader.readLine();
-            socket = new Socket(serverName, 5001);
-            System.out.println("Connection established");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     class ViewTLAction extends AbstractAction {
@@ -97,6 +87,25 @@ public class SimpleTwitterGUI extends JFrame {
         }
     }
 
+    class ConnectAction extends AbstractAction {
+        @Override
+        public void actionPerformed(ActionEvent event) {
+            try {
+                reader = new BufferedReader(new InputStreamReader(System.in));
+                String serverName = addressField.getText();
+                socket = new Socket(serverName, 5001);
+                System.out.println("Connection established: " + serverName);
+                statusLabel.setText("Connection established");
+                timelineArea.setText("To reveal your timeline here, \nplease click \"Update Timeline\" below.\n\nYou can specify the number of tweets to view.");
+            } catch (IOException exception) {
+                exception.printStackTrace();
+                System.out.println("Connection failed");
+                statusLabel.setText("Connection failed");
+                timelineArea.setText("Failed! \nPlease make sure the server is running and the addres is correct, then retry.");
+            }
+        }
+    }
+
     private void initializeGUI() {
         pane = (JPanel)getContentPane();
         pane.setLayout(new BorderLayout());
@@ -110,7 +119,9 @@ public class SimpleTwitterGUI extends JFrame {
         addressField = new JTextField("localhost");
         addressField.setPreferredSize(new Dimension(150, 25));
         topPanel.add(addressField);
-        connectButton = new JButton();
+        Action connectAction = new ConnectAction();
+        connectAction.putValue(Action.NAME, "Connect");
+        connectButton = new JButton(connectAction);
         topPanel.add(connectButton);
         pane.add(topPanel, BorderLayout.PAGE_START);
 
